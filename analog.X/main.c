@@ -40,7 +40,15 @@ void analogRead()
     res = (ADRESH<<8)|ADRESL;
 }
 
+void putch(unsigned char data) {
+    while( ! PIR1bits.TXIF)
+        continue;
+    TXREG = data;
+}
+
 void main(void) {
+    TXSTAbits.TXEN = 1;
+    RCSTAbits.SPEN = 1;
     TRISCbits.RC2 = 0;
     PORTCbits.RC2 = 0;
     
@@ -51,7 +59,8 @@ void main(void) {
     
     while(1)
     {
-        
+        analogRead();
+        printf("Hello\n");
     }
 
     return;
